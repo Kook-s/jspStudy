@@ -1,3 +1,10 @@
+<%@page import="vo.MemberVO"%>
+<%@page import="dao.MemberDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="org.apache.commons.fileupload.DiskFileUpload"%>
+<%@page import="org.apache.commons.fileupload.FileItem"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.io.File"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -50,6 +57,67 @@
 								 
 								 2.회원가입이 완료되면 total_signin.jsp로 이동하여 로그인을 진행 할 수 있도록 해주세요
 								 -->
+								 
+								<%
+								 String fileUploadPath = "C:\\Users\\PC-20\\git\\jspStudy\\JSPBook\\WebContent\\ch07\\test\\img";
+								
+								File tempFile = new File(fileUploadPath);
+								if(!tempFile.exists()){
+									tempFile.mkdirs();
+								}
+								MemberDAO dao = MemberDAO.getInstance();
+								MemberVO vo = new MemberVO();
+								
+								DiskFileUpload upload = new DiskFileUpload();
+								upload.setSizeMax(5*1024*1024); //업로드할 파일의 최대 크기 (byte)
+								upload.setSizeThreshold(4096); // 메모리상에 저장할 최대 크기()
+								upload.setRepositoryPath(fileUploadPath); //업로드된 파일을 임시로 저장할 경로
+								
+								List item =  upload.parseRequest(request);
+							    Iterator params = item.iterator();
+							    
+							    int maxSize = 4*1024*1024; //파일 업로드 시 1개의 파일 당 사이즈 (최대 사이즈)
+							    
+							      while(params.hasNext()){
+							    	  FileItem fileItem = (FileItem)params.next();
+							    	  
+							    	  if(fileItem.isFormField()){ //홈페이지에서 전송된 요청 파라미터가 일반 데이터 일 때
+							    		  String name = fileItem.getFieldName();
+							    	     String value =  fileItem.getString("utf-8");
+							    	     out.print(name + "=" + value +"<br>");
+							    	     
+							    	     if(name.equals("id")){vo.setMem_id(value);}
+							    	     if(name.equals("pw")){vo.setMem_pw(value);}
+							    	     if(name.equals("name")){vo.setMem_name(value);}
+							    	     if(name.equals("gender")){vo.setMem_sex(value);}
+							    	     
+							    	  }else{
+							    		  String fileFieldName = fileItem.getFieldName();
+							    		  String fileName = fileItem.getName();
+							    		  String contentType = fileItem.getContentType();
+							    		  long filesize = fileItem.getSize();
+							    		  
+							    		  File file = new File(fileUploadPath + "/"+fileName);
+							    		  if(maxSize <filesize){
+							    			  out.print("파일 크기를 초과하였습니다<br>");
+							    		  }else{
+							    			  fileItem.write(file);
+							    			  vo.setFilename(fileName);
+							    			  
+							    		  }
+							    		  
+							    		  out.println("-------------------------------------<br>");
+							    		  out.println("요청 파라미터 이름 : "+fileFieldName+"<br>");
+							    		  out.println("저장 파일 이름 : "+fileName+"<br>");
+							    		  out.println("파일 콘텐츠 이름 : "+contentType+"<br>");
+							    		  out.println("파일 크기 : "+filesize+"<br>");
+							    	  }
+							      }
+							    
+							    dao.insertMember(vo);
+							    request.getRequestDispatcher("total_signin.jsp").forward(request, response);
+								%>
+							
 								</div>
 							</div>
 						</div>

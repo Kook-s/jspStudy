@@ -1,3 +1,4 @@
+<%@page import="org.apache.catalina.ha.backend.Sender"%>
 <%@page import="dao.MemberDAO"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="vo.MemberVO"%>
@@ -10,20 +11,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<meta name="description" content="">
-				<meta name="author" content="">
-					<title>대덕인재개발원 JSP</title>
-					<link
-						href="/resources/sbadmin/vendor/fontawesome-free/css/all.min.css"
-						rel="stylesheet" type="text/css">
-						<link
-							href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-							rel="stylesheet">
-							<link href="/resources/sbadmin/css/sb-admin-2.min.css"
-								rel="stylesheet">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>대덕인재개발원 JSP</title>
+<link href="/resources/sbadmin/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+<link href="/resources/sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -41,9 +40,8 @@
 							<!-- Basic Card Example -->
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">
-									  로그인 데이터 가공페이지
-									</h6>
+									<h6 class="m-0 font-weight-bold text-primary">로그인 데이터
+										가공페이지</h6>
 								</div>
 								<div class="card-body">
 									<!--
@@ -60,25 +58,26 @@
 									  4.전달받은 아이디 비밀번호에 해당하지 않는 회원인 경우에는 total_signin.jsp로 이동하여
 									  다시 로그인을 진행할 수 있도록 해주시고, 에러 메시지를 출력해 주세요.
 									  -->
-									  
-									  <%
-									  request.setCharacterEncoding("utf-8");
-									  
-									  MemberDAO dao = MemberDAO.getInstance();
-									  ArrayList<MemberVO> list = dao.getMemberList();
-									 
+
+									<%
+										request.setCharacterEncoding("utf-8");
+
+									MemberDAO dao = MemberDAO.getInstance();
+									ArrayList<MemberVO> list = dao.getMemberList();
+
 									String id = request.getParameter("id");
 									String pw = request.getParameter("pw");
-										  
-										  for(int i=0 ; i< list.size();i++){
-											  if(id.equals(list.get(i).getMem_id())&&pw.equals(list.get(i).getMem_pw())){
-										  request.getRequestDispatcher("total_memberList.jsp").forward(request, response);
-											  }
-										  }
-										  
-									 	 request.setAttribute("error", 1);
-								  		 request.getRequestDispatcher("total_signin.jsp").forward(request, response);
-									  %>
+
+									for (int i = 0; i < list.size(); i++) {
+										if (id.equals(list.get(i).getMem_id()) ) {
+											request.getRequestDispatcher("total_memberList.jsp").forward(request, response);
+											
+										}
+									}
+
+									request.setAttribute("error", 1);
+									request.getRequestDispatcher("total_signin.jsp").forward(request, response);
+									%>
 								</div>
 							</div>
 						</div>

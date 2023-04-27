@@ -1,3 +1,4 @@
+<%@page import="vo.MemberVO"%>
 <%@page import="dao.MemberDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
@@ -72,20 +73,24 @@
 									  </tr>
 									  <%
 									    MemberDAO dao = MemberDAO.getInstance();
-									  ArrayList list = dao.getMemberList();
-									  for(int i=0; i<1;i++){
-									  %>
-									  <tr>
-									    <th><img>123</th>
-									    <th>
-									    아이디 : <br>
-									    비밀번호 : <br>
-									    이 름 : <br>
-									    성 별 : <br>
-									    </th>
-									    <th><a href="#">상세정보</a></th>
-									  </tr>
-									  <%} %>
+									  ArrayList<MemberVO> list = dao.getMemberList();
+									  
+									  for(MemberVO vo :list){
+										  %>
+										  <tr>
+										    <th>
+										    <img src="<%=request.getContextPath()%>/ch07/test/img/<%=vo.getFilename()%>" alt="<%=vo.getFilename()%>" style="width: 120px; height: 100px">
+										    </th>
+										    <th>
+										    아이디 : <%=vo.getMem_id() %> <br>
+										    비밀번호 : <%=vo.getMem_pw() %> <br>
+										    이 름 : <%=vo.getMem_name() %><br>
+										    성 별 : <%=vo.getMem_sex() %><br>
+										    </th>
+										    <th><a href="#">상세정보</a></th>
+										  </tr>
+										  <%} %>
+									 
 									  </table>
 									  </form>
 								</div>

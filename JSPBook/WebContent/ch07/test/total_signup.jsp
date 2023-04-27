@@ -50,7 +50,7 @@
 								  
 								  3. 뒤로 가기 버튼을 생성하고 뒤로 가기 버튼을 클릭시 다시 로그인 화면으로 나갈수 있도록 해주세요
 								  -->
-								  <form action="total_signup_process.jsp">
+								  <form action="total_signup_process.jsp" method="post" enctype="multipart/form-data">
 								  아이디 :<input type="text" name="id"> <br>
 								  비밀번호 :<input type="text" name="pw"><br>
 								  이 름 :<input type="text" name="name"><br>
@@ -60,7 +60,7 @@
 								  <input type="file" name="filename" multiple="multiple"><br>
 								  <br>
 								  <input type="submit" value="가입하기">
-								  <input type="button" value="뒤로가기">
+								  <input type="button" value="뒤로가기" onClick="location.href='total_signin.jsp'">
 								  </form>
 								</div>
 							</div>
