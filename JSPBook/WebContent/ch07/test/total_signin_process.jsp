@@ -1,8 +1,11 @@
+<%@page import="dao.MemberDAO"%>
+<%@page import="java.util.Enumeration"%>
+<%@page import="vo.MemberVO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-		
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,16 +24,7 @@
 							rel="stylesheet">
 							<link href="/resources/sbadmin/css/sb-admin-2.min.css"
 								rel="stylesheet">
-								
-								<script type="text/javascript">
-								num =<%=request.getParameter("num")%> 
-								   if(num == 1){
-									   alert("다시 입력해주세요")
-									
-								   }
-								</script>
 </head>
-
 <body id="page-top">
 	<div id="wrapper">
 		<%@ include file="/include/header.jsp"%>
@@ -48,40 +42,43 @@
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
 									<h6 class="m-0 font-weight-bold text-primary">
-									   input 태그의 기능과 사용법(form)
+									  로그인 데이터 가공페이지
 									</h6>
 								</div>
 								<div class="card-body">
-								<!-- 
-									1) ch06_test.jsp 에 아래에 해당하는 항목을 만들어 주세욧
-									    아이디 비밀번호 이름 연락처 성별 취미 소개
-									2) 버튼은 submit 
-									3) ch06_test_process.jsp로 입력한 데이터를 넘겨주세요
-									
-								 -->
-									<form action="form06_test_process.jsp" name="member" method="post">
-								 아이디 :  <input type="text" name="id" ><input type="button" value="중복확인"><br>
-								 비밀번호 : <input type="password" name='pw'><br>
-								 이 름 : <input type="text" name='name'><br>
-								 연락처 : <select name="phone1">
-								   				<option value="010">010</option>
-								   				<option value="011">011</option>
-								   				<option value="016">016</option>
-								   				<option value="017">017</option>
-								   				<option value="019">019</option>
-								 			</select> -
-								  <input type="text" name='phone2' maxlength="4" size="4"> -
-								  <input type="text" name='phone3' maxlength="4" size="4"><br>
-								  이메일 : <input type="text" name='mail'><br>
-								 성 별 : <input type="radio" name="gender" value="남성" checked="checked">남성
-								 <input type="radio" name="gender" value="여성" >여성
-								 취 미 : <input type="checkbox"name="hobby" value="독서" checked="checked">독서
-										<input type="checkbox"name="hobby" value="운동" checked="checked">운동
-							            <input type="checkbox"name="hobby" value="영화" checked="checked">영화 <br>
-							     자기소개 : <textarea rows="3" cols="30" wrap="soft" name="comment" placeholder="가입인사를 입력해주세요"></textarea>
-							            <input type="submit" value="가입하기">
-							            <input type="reset" value="다시쓰기"><br> 
-								</form>
+									<!--
+									  1. 로그인 페이지에서 전송한 아이디, 비밀번호를 받는다.
+									  
+									  2. 전달받은 아이디 , 비밀번호에 해당하는 내 정보가 있는지 없는지 체크
+									  	- DAO ,VO를 활용하여 진행할 수 있도록 합니다.
+									  	-DAO ,VO 까지는 제가 제공해 드릴께요
+									  	
+									  3.전달받은 아이디 비밀번호 해당하는 회원인 경우에는 total_memberList.jsp로 이동하여
+									  회원 목록 페이지를 완성해주세요
+									  - 회원 목록 페이지로 넘어가서 해당 목록 페이제에서는 'a001님! 환영합니다!' 메시지를 출력해주세요
+									  
+									  4.전달받은 아이디 비밀번호에 해당하지 않는 회원인 경우에는 total_signin.jsp로 이동하여
+									  다시 로그인을 진행할 수 있도록 해주시고, 에러 메시지를 출력해 주세요.
+									  -->
+									  
+									  <%
+									  request.setCharacterEncoding("utf-8");
+									  
+									  MemberDAO dao = MemberDAO.getInstance();
+									  ArrayList<MemberVO> list = dao.getMemberList();
+									 
+									String id = request.getParameter("id");
+									String pw = request.getParameter("pw");
+										  
+										  for(int i=0 ; i< list.size();i++){
+											  if(id.equals(list.get(i).getMem_id())&&pw.equals(list.get(i).getMem_pw())){
+										  request.getRequestDispatcher("total_memberList.jsp").forward(request, response);
+											  }
+										  }
+										  
+									 	 request.setAttribute("error", 1);
+								  		 request.getRequestDispatcher("total_signin.jsp").forward(request, response);
+									  %>
 								</div>
 							</div>
 						</div>

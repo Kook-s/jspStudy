@@ -1,8 +1,9 @@
+<%@page import="dao.MemberDAO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-		
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,16 +22,7 @@
 							rel="stylesheet">
 							<link href="/resources/sbadmin/css/sb-admin-2.min.css"
 								rel="stylesheet">
-								
-								<script type="text/javascript">
-								num =<%=request.getParameter("num")%> 
-								   if(num == 1){
-									   alert("다시 입력해주세요")
-									
-								   }
-								</script>
 </head>
-
 <body id="page-top">
 	<div id="wrapper">
 		<%@ include file="/include/header.jsp"%>
@@ -48,40 +40,54 @@
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
 									<h6 class="m-0 font-weight-bold text-primary">
-									   input 태그의 기능과 사용법(form)
+									   회원정보 리스트
 									</h6>
 								</div>
 								<div class="card-body">
-								<!-- 
-									1) ch06_test.jsp 에 아래에 해당하는 항목을 만들어 주세욧
-									    아이디 비밀번호 이름 연락처 성별 취미 소개
-									2) 버튼은 submit 
-									3) ch06_test_process.jsp로 입력한 데이터를 넘겨주세요
-									
-								 -->
-									<form action="form06_test_process.jsp" name="member" method="post">
-								 아이디 :  <input type="text" name="id" ><input type="button" value="중복확인"><br>
-								 비밀번호 : <input type="password" name='pw'><br>
-								 이 름 : <input type="text" name='name'><br>
-								 연락처 : <select name="phone1">
-								   				<option value="010">010</option>
-								   				<option value="011">011</option>
-								   				<option value="016">016</option>
-								   				<option value="017">017</option>
-								   				<option value="019">019</option>
-								 			</select> -
-								  <input type="text" name='phone2' maxlength="4" size="4"> -
-								  <input type="text" name='phone3' maxlength="4" size="4"><br>
-								  이메일 : <input type="text" name='mail'><br>
-								 성 별 : <input type="radio" name="gender" value="남성" checked="checked">남성
-								 <input type="radio" name="gender" value="여성" >여성
-								 취 미 : <input type="checkbox"name="hobby" value="독서" checked="checked">독서
-										<input type="checkbox"name="hobby" value="운동" checked="checked">운동
-							            <input type="checkbox"name="hobby" value="영화" checked="checked">영화 <br>
-							     자기소개 : <textarea rows="3" cols="30" wrap="soft" name="comment" placeholder="가입인사를 입력해주세요"></textarea>
-							            <input type="submit" value="가입하기">
-							            <input type="reset" value="다시쓰기"><br> 
-								</form>
+									<!--
+									 1. 로그인 성공후 넘어왔을 때 'a001님! 환영합니다!' 메시지 출력을 완성해주세요
+									 
+									 2. 회원 목록에 저장되어 있는 회원 모두 출력해주세요
+									 
+									 --------------------------------------
+									  이미지  |  회원 정보    |  버튼
+									--------------------------------------- 
+									          | 아이디:a001   |
+									  이미지  | 비밀번호:1234 | [상제정보]
+									          | 이름:박정수   | 
+									          | 성별: 남자    |
+									 --------------------------------------
+									 
+									 3.회원등록 버튼을 클릭시 회원 가입 페이지로 이동하여 회원 등록을 진행 할 수 있도록 해주세요
+									  -->
+									  
+									  <form action="total_signup.jsp">
+									  <input type="submit" value="회원등록">
+									  <br> <br>
+									  <table border="1">
+									  <tr>
+									  <th>이미지</th>
+									  <th>회원 정보</th>
+									  <th>버 튼</th>
+									  </tr>
+									  <%
+									    MemberDAO dao = MemberDAO.getInstance();
+									  ArrayList list = dao.getMemberList();
+									  for(int i=0; i<1;i++){
+									  %>
+									  <tr>
+									    <th><img>123</th>
+									    <th>
+									    아이디 : <br>
+									    비밀번호 : <br>
+									    이 름 : <br>
+									    성 별 : <br>
+									    </th>
+									    <th><a href="#">상세정보</a></th>
+									  </tr>
+									  <%} %>
+									  </table>
+									  </form>
 								</div>
 							</div>
 						</div>

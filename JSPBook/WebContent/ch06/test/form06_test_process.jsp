@@ -87,12 +87,12 @@
 									<c:if test="${name=='pw'}">비밀번호 :</c:if>
 									<c:if test="${name=='name'}">이름 :</c:if>
 									<c:if test="${name=='phone1'}">연락처 :</c:if>
-										<c:if test="${name=='mail'}">이메일 :</c:if>
+									<c:if test="${name=='mail'}">이메일 :</c:if>
 									<c:if test="${name=='gender'}">성별 :</c:if>
 									<c:if test="${name=='hobby'}">취미 :</c:if>
 									<c:if test="${name=='comment'}">소개 :</c:if>
 									
-									  <c:set value="<%=pramValue%>" var="name2"></c:set>
+									 <c:set value="<%=pramValue%>" var="name2"></c:set>
 									  <c:out value="${name2}"></c:out>  
 									<c:if test="${name=='phone1'}">-</c:if>
 									<c:if test="${name=='phone2'}">-</c:if>
