@@ -42,20 +42,25 @@
 									</h6>
 								</div>
 								<div class="card-body">
-								<h3>javascript</h3>
-								<form action="validation04_process.jsp" name="loginForm" method="post" >
+								<h3>회원가입</h3>
+								<form action="validation05_process.jsp" name="member" method="post" >
 								아이디 : <input type="text" name="id"><br>
 								비밀번호 : <input type="text" name="pw"><br>
-								<input type="button" value="전송" onclick="CheckLogin()">
+								이 름 : <input type="text" name="name"><br>
+								연락처 : 
+										<select name="phone1">
+											<option value="010">010</option>
+											<option value="011">011</option>
+											<option value="016">016</option>
+											<option value="017">017</option>
+											<option value="019">019</option>
+										</select>
+										 <input type="text" name="phone2" size="4" maxlength="4">-
+										 <input type="text" name="phone3" size="4" maxlength="4">
+										 이메일 : <input type="text" name="email"><br>
+										 <input type="button" value="가입" onclick="CheckMember()">
 								</form>
-								 <hr>
-								 <h3>jquery</h3>
-								 <form action="validation04_process.jsp" method="post" name="loginForm2" id="loginForm2" >
-								아이디 : <input type="text" name="id2" id="id2"><br>
-								비밀번호 : <input type="text" name="pw2" id="pw2"><br>
-								<input type="button" value="전송" id="loginBtn"/>
-								 
-								</form>
+								
 								</div>
 							</div>
 						</div>
@@ -79,28 +84,66 @@
 </body>
 
 <script type="text/javascript">
-function CheckLogin(){
+function CheckMember(){
+	//1. 아이디는 영문 대문자와 소문자, 한글, 한글의 자음과 모음만 검사하도록 정규 표현식 작성
+	var regExpId = /^[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 	
-	var form = document.loginForm;
+	//2. 비밀번호는 숫자만 검사하도록 정규 표현식 작성
+	var regExpPasswd = /^[0-9]*$/
+	//3.이름은 한글만 검사하도록 정규 표현식 작성
+	var regExpName = /^[가-힣]*$/
+	//4.전화번호는 전화번호 형태 (숫자)인지 검사하도록 정규 표현식 작성
+	var regExpPhone = /^\d{3}-\d{3,4}-\d{4}$/
+	//5.이메일은 이메일 형식인지 검사하도록 정규표현식 작성
+	//처음 시작이 숫자, 영소대문자이고 특수문자-_/.나올 수도 있고 안나올수도 있고
+	// 그 다음에 숫자 , 영소대문자 0개이상 나온다.
+	//@이메일 형식과 같은 내용을 @기준으로 이어서
+	//숫자 , 영소대문자이고 특수문자-_/.나올 수도 있고 숫자, 영소대문자 0번이상 반복
+	//. 이후 영소대문자 2,3자 
+	var regExpEmail = /^[0-9a-zA-Z]([-_/.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_/.]?[0-9a-zA-Z]*\.[a-zA-Z]{2,3}$)/i;
 	
-	for(i = 0; i< form.id.value.length; i++){
-		
-		var ch = form.id.value.charAt(i);
-		
-		if((ch < 'a' || ch > 'z')&&(ch > 'A' || ch < 'Z')&&(ch > '0' || ch < '9')){
-			alert("아이디는 영문 소문자로만 입력 가능합니다.")
-			form.id.select();
-			return false;
-		}
+	//i : Ignore Case 문자열의 대문자와 소문자를 구별하지 않고 검출한다.
+	//g : Global 문자열 내의 모든 패턴을 검출한다.
+	//m : MultiLine 문자열에 줄 바꿈 행이 있는지 검출한다.
+	
+	var form = document.member
+	
+	var id = form.id.value;	//아이디
+	var pw = form.pw.value; ///비밀번호
+	var name = form.name.value; ///이름
+	var phone = form.phone1.value+"-"+form.phone2.value+"-"+form.phone3.value; ///핸드폰번호
+	var email = form.email.value; ///이메일
+	
+	if(!regExpId.test(id)){
+		alert("아이디는 영문 대소문자 , 한글, 한글의 자음과 모음으로 시작해주세요")
+		form.id.select()
+		return false
 	}
 	
-	if(isNaN(form.pw.value)){
-		alert("비밀번호는 숫자로만 입력 가능합니다.")
-		form.pw.select();
-		return false;
+	if(!regExpPasswd.test(pw)){
+		alert("비밀번호는 숫자만 입력해주세요")
+		form.pw.select()
+		return false
 	}
 	
-	form.submit()
+	if(!regExpName.test(name)){
+		alert("이름은 한글만 입력해주세요")
+		form.name.select()
+		return false
+	}
+	
+	if(!regExpPhone.test(phone)){
+		alert("연락처 형식에 맞춰 입력해주세요")
+		return false
+	}
+	
+	if(!regExpEmail.test(email)){
+		alert("이메일 형식에 맞춰 입력해주세요")
+		return false
+	}
+	
+	form.submit();
+	
 }
 </script>
 </html>
