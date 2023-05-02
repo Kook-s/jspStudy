@@ -61,7 +61,7 @@
 									 
 									 3.회원등록 버튼을 클릭시 회원 가입 페이지로 이동하여 회원 등록을 진행 할 수 있도록 해주세요
 									  -->
-									  
+									
 									  <form action="total_signup.jsp">
 									  <input type="submit" value="회원등록">
 									  <br> <br>

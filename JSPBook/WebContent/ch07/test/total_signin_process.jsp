@@ -59,7 +59,7 @@
 									  다시 로그인을 진행할 수 있도록 해주시고, 에러 메시지를 출력해 주세요.
 									  -->
 
-									<%
+									<%-- <%
 										request.setCharacterEncoding("utf-8");
 
 									MemberDAO dao = MemberDAO.getInstance();
@@ -77,6 +77,36 @@
 
 									request.setAttribute("error", 1);
 									request.getRequestDispatcher("total_signin.jsp").forward(request, response);
+									%> --%>
+									
+									<%
+									String id = request.getParameter("id");
+									String pw = request.getParameter("pw");
+									
+									MemberDAO dao = MemberDAO.getInstance();
+								    ArrayList<MemberVO> memberList = dao.getMemberList();
+								    
+								    if(memberList.size()>0){
+								    	boolean flag = false;
+								    	
+								    	for(MemberVO memberVO : memberList){
+								    		if(id.equals(memberVO.getMem_id())&&pw.equals(memberVO.getMem_pw())){
+								    			flag = true;
+								    			break;
+								    		}
+								    	}
+								    	if(flag){
+								    		response.sendRedirect("total_memberList.jsp?id="+id);
+								    	}else{
+								    		request.getRequestDispatcher("total_signin.jsp?error=1").forward(request, response);
+								    	}
+								    	
+								    	request.getRequestDispatcher("total_signin.jsp?error=1").forward(request, response);
+								    	
+								    }
+											
+									
+									
 									%>
 								</div>
 							</div>
