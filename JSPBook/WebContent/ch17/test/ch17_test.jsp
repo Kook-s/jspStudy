@@ -74,7 +74,7 @@
                                 "유이현,배문기,전다미,오대환,구기현,오미나,진현성,홍기태,이수진,김동혁,박승우,김민경,박경수,정은지,변정민,"+
                                 "조성희,황지현,정재균,고영우,박윤수,이성일,신국현,이지영,전지혜,신현근,김지완"; 
                         	 
-                        	 Set<String> set406 = new HashSet<>();
+                        	 Set<String> set406 = new HashSet<>();//생각해보니까 안써도됨
                         	 Map<String,Integer> map406 = new HashMap<>();
 								%>
 								
@@ -86,18 +86,16 @@
                         	 
                         	 <c:forEach var="i" begin="0" end="${fn:length(names)-1 }">
                          		<c:set value="${fn:substring(names[i],0,1) }" var="onename"/>
-                         		<p>${names[i]=onename }</p>
-                         		
+                         		<c:set var='t' value="${names[i]=onename }"/>
                          		<c:set var='t1' value="${set406.add(names[i])}"/>
                          	</c:forEach>
                          		
                          	<c:forEach var="s" items="${set406}">
                          		<c:set var="t2" value="${map406.put(s,0) }"/>
-                         	
                          	</c:forEach>
                          	
                          	 <c:forEach var="i" begin="0" end="${fn:length(names)-1 }">
-                         			${map406.put(names[i],map406.get(names[i])+1) }
+                         		<c:set var="t3" value="${map406.put(names[i],map406.get(names[i])+1) }"/>
                          	</c:forEach>
                          	<br>
                          	${map406 }
